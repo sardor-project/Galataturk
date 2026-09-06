@@ -4,6 +4,7 @@ import { Flame } from "lucide-react";
 import SpotlightCard from "@/components/reactbits/SpotlightCard";
 import Reveal from "@/components/Reveal";
 import Section from "@/components/Section";
+import { formatPrice } from "@/components/MenuSection";
 import { useLang } from "@/lib/i18n";
 import { MENU, SIGNATURE_IDS } from "@/data/content";
 
@@ -42,12 +43,12 @@ export default function Signature() {
                     {dish[lang].name}
                   </h3>
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-fg-muted">
-                    {dish[lang].desc}
+                    {dish.tr}
                   </p>
 
                   <div className="mt-6 flex items-baseline gap-1.5 border-t border-border pt-5">
                     <span className="font-display text-2xl font-semibold text-accent">
-                      {dish.price}
+                      {formatPrice(dish.price)}
                     </span>
                     <span className="text-sm text-fg-muted">{t.menu.currency}</span>
                   </div>

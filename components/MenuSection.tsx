@@ -6,6 +6,11 @@ import Section from "@/components/Section";
 import { useLang } from "@/lib/i18n";
 import { MENU } from "@/data/content";
 
+/* 68000 -> "68 000" (неразрывные пробелы, чтобы цена не переносилась) */
+export function formatPrice(value: number) {
+  return value.toLocaleString("ru-RU").replace(/\s/g, " ");
+}
+
 export default function MenuSection() {
   const { lang, t } = useLang();
   const [active, setActive] = useState(MENU[0].id);
@@ -58,7 +63,7 @@ export default function MenuSection() {
           {category.dishes.map((dish, i) => (
             <li key={dish.id} className="border-b border-border last:border-b-0 lg:last:border-b">
               <div
-                className="dish-in py-5"
+                className="dish-in py-4"
                 style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}
               >
                 {/* Название — выноска — цена на одной базовой линии */}
@@ -80,15 +85,16 @@ export default function MenuSection() {
 
                   <span className="shrink-0 whitespace-nowrap">
                     <span className="font-display text-xl font-semibold text-accent">
-                      {dish.price}
+                      {formatPrice(dish.price)}
                     </span>
                     <span className="ml-1 text-xs text-fg-muted">{t.menu.currency}</span>
                   </span>
                 </div>
 
-                <p className="mt-1.5 max-w-prose pr-4 text-sm leading-relaxed text-fg-muted">
-                  {dish[lang].desc}
-                </p>
+                {/* Оригинальное турецкое название — не дублируем, если совпадает */}
+                {dish.tr !== dish[lang].name && (
+                  <p className="mt-1 text-sm text-fg-muted">{dish.tr}</p>
+                )}
               </div>
             </li>
           ))}

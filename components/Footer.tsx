@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUp, Phone, MapPin } from "lucide-react";
-import { InstagramIcon, TelegramIcon, Ornament } from "@/components/Icons";
+import { InstagramIcon, Ornament } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
 import { INFO } from "@/data/content";
 
@@ -51,13 +51,13 @@ export default function Footer() {
                 <InstagramIcon />
               </a>
               <a
-                href={INFO.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Telegram"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border-strong text-fg-muted transition-colors hover:border-accent hover:text-accent"
+                href={INFO.phoneTurkHref}
+                aria-label={`${INFO.phoneTurk} — türkçe`}
+                title="Türkçe"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-border-strong px-4 text-sm text-fg-muted transition-colors hover:border-accent hover:text-accent"
               >
-                <TelegramIcon />
+                <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
+                Türkçe
               </a>
               <a
                 href="#top"

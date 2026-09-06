@@ -18,6 +18,12 @@ export default function Contact() {
       value: INFO.phone,
       href: INFO.phoneHref,
     },
+    {
+      icon: Phone,
+      label: "Türkçe",
+      value: INFO.phoneTurk,
+      href: INFO.phoneTurkHref,
+    },
     { icon: QrCode, label: t.contact.plusLabel, value: INFO.plusCode },
   ];
 
