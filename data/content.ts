@@ -421,8 +421,14 @@ export const T = {
     },
     gallery: {
       title: "Атмосфера",
-      lead: "Зал, мангал и то, что выносят к столу.",
+      lead: "Зал, вход и то, что выносят к столу.",
       placeholder: "Фото скоро появится",
+      alt: {
+        interior: "Зал Galata Türk: столы, живая зелень и турецкие фонари",
+        facade: "Вход в Galata Türk на улице Мукими",
+        grill: "Курица на гриле с лавашом, рисом, салатом и соусом",
+        platter: "Большое мясное плато на деревянной доске",
+      },
     },
     reviews: {
       title: "Что говорят гости",
@@ -523,8 +529,14 @@ export const T = {
     },
     gallery: {
       title: "Muhit",
-      lead: "Zal, mangal va dasturxonga chiqadigan taomlar.",
+      lead: "Zal, kirish va dasturxonga chiqadigan taomlar.",
       placeholder: "Foto tez orada",
+      alt: {
+        interior: "Galata Türk zali: stollar, jonli ko'katlar va turk fonuslari",
+        facade: "Muqimiy ko'chasidagi Galata Türk kirishi",
+        grill: "Grildagi tovuq, lavash, guruch, salat va sous bilan",
+        platter: "Yog'och taxtadagi katta go'sht platosi",
+      },
     },
     reviews: {
       title: "Mehmonlar nima deydi",

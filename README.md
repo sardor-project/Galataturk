@@ -24,28 +24,31 @@ cd out && python -m http.server 4321
 
 | Что | Где |
 |---|---|
-| **Цены в меню** — сейчас плейсхолдеры | `data/content.ts`, поле `price` в `MENU` (в тысячах сумов) |
+| **Цены в меню** — выдуманы, обязательно заменить | `data/content.ts`, поле `price` в `MENU` (в тысячах сумов) |
+| **Состав меню** — из исходных данных были только Куриная грудка, Agnello, Adana Kebab, сарма бейти, пицца и чечевичный суп; остальные позиции дописаны как типовые турецкие | `data/content.ts`, массив `MENU` |
 | Ссылка кнопки «Забронировать стол» | `data/content.ts` → `INFO.bookingHref` (сейчас WhatsApp на рабочий номер) |
 | Instagram и Telegram | `data/content.ts` → `INFO.instagram`, `INFO.telegram` (сейчас заглушки) |
-| Фото ресторана | см. ниже |
 
 Телефон, адрес, часы, рейтинг и отзывы взяты из карточки заведения на Google Картах
 и лежат там же, в `data/content.ts`.
 
-## Как добавить фото
+## Фото
 
-1. Положи файлы в `public/gallery/`.
-2. В `components/Gallery.tsx` в массиве `SHOTS` добавь каждому слоту `src`:
-   `{ id: "zal", src: "/gallery/zal.jpg", alt: "Зал ресторана" }`.
+В `public/gallery/` лежат четыре реальных снимка (webp, обрезаны и сжаты через
+`sharp`): зал, фасад с вывеской, курица на гриле и мясное плато. Раскладка —
+широкий кадр зала сверху, три кадра 4:3 под ним.
 
-Сжать и обрезать можно через `sharp` (уже стоит вместе с Next):
+Чтобы заменить или добавить фото: положи файл в `public/gallery/` и поправь
+массив `SHOTS` в `components/Gallery.tsx`, а подписи (alt) — в `data/content.ts`,
+в `gallery.alt` для обоих языков.
+
+Обрезка и сжатие:
 
 ```bash
-node -e "require('sharp')('foto.jpg').resize(1600,1600,{fit:'cover'}).webp({quality:82}).toFile('public/gallery/zal.webp')"
+node -e "require('sharp')('foto.jpg').resize(1200,900,{fit:'cover'}).webp({quality:82}).toFile('public/gallery/new.webp')"
 ```
 
-Слотов шесть: первый большой (2×2), остальные по клетке — вместе дают ровный
-квадрат 3×3. Если фото меньше, лишние слоты покажут аккуратную заглушку.
+У `<img>` не ставь атрибуты `width`/`height` — они перебивают CSS `aspect-ratio`.
 
 ## Структура
 
@@ -57,9 +60,12 @@ app/
 components/
   Header, Hero, Features, Signature, MenuSection,
   About, Gallery, Reviews, Contact, Footer, Section, SkipLink
+  Reveal.tsx        появление секций на IntersectionObserver
+  ScrollRefresh.tsx пересчёт ScrollTrigger + дочистка появления
   Icons.tsx         свои SVG: Instagram, Telegram, звезда, орнамент
-  reactbits/        компоненты из react-bits (SplitText, CountUp, FadeContent,
-                    AnimatedContent, Noise, SpotlightCard) — в игноре eslint
+  reactbits/        компоненты из react-bits (SplitText, CountUp, Noise,
+                    SpotlightCard) — в игноре eslint
+public/gallery/     фото ресторана (webp)
 data/content.ts     весь текст на двух языках + меню + контакты
 lib/i18n.tsx        переключатель языка (localStorage + useSyncExternalStore)
 ```
@@ -78,8 +84,11 @@ lib/i18n.tsx        переключатель языка (localStorage + useSyn
 - Список блюд при переключении вкладки анимируется CSS-классом `.dish-in`, а не
   ScrollTrigger: список перерисовывается уже во вьюпорте, и триггер мог бы не
   сработать, оставив блюда невидимыми.
-- В `AnimatedContent` не используется `direction="horizontal"` — GSAP сдвигает блок
-  за правый край и на мобильном появляется горизонтальная прокрутка.
+- Появление секций сделано на IntersectionObserver (`components/Reveal.tsx`), а не
+  на GSAP ScrollTrigger: тот привязывается к позициям, посчитанным до загрузки
+  шрифтов, и при быстрой прокрутке проскакивает секцию — она остаётся пустой.
+- Не используй `direction="horizontal"` в react-bits AnimatedContent — GSAP сдвигает
+  блок за правый край, и на мобильном появляется горизонтальная прокрутка.
 - У `<img>` не ставь атрибуты `width`/`height` — они перебивают CSS `aspect-ratio`.
   Нужен `height: auto` (задан глобально в `globals.css`).
 - Бренд-иконок в `lucide-react` больше нет — Instagram и Telegram нарисованы
